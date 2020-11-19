@@ -27,9 +27,9 @@ end
 
 command = "#{gradlew_folder_path} #{ac_module}/dependencies"
 dependency_report_path="#{ac_output_folder}/dependencyReport.txt"
-if(ac_dependency_configuration != nil) {
+if(ac_dependency_configuration != nil) 
     command = "#{command} --configuration #{ac_dependency_configuration}"
-}
+end
 
 run_command("#{command} >> #{dependency_report_path})
 puts "Exporting AC_ANDROID_DEPENDENCY_REPORT_PATH=#{dependency_report_path}"
