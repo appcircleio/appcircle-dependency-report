@@ -1,6 +1,7 @@
 require 'yaml'
 require 'open3'
 require 'fileutils'
+require 'pathname'
 
 def get_env_variable(key)
 	return (ENV[key] == nil || ENV[key] == "") ? nil : ENV[key]
@@ -9,7 +10,8 @@ end
 ac_module = get_env_variable("AC_MODULE") || abort('Missing module.')
 ac_repo_path = get_env_variable("AC_REPOSITORY_DIR") || abort('Missing repo path.')
 ac_output_folder = get_env_variable("AC_OUTPUT_DIR") || abort('Missing output folder.')
-ac_dependency_configuration = get_env_variable("AC_DEPENDENCY_CONFIGURATION") || abort('Missing dependency configuration.')
+ac_project_path = get_env_variable("AC_PROJECT_PATH") || "."
+ac_dependency_configuration = "implementation"
 
 def run_command(command)
     puts "@@[command] #{command}"
@@ -25,7 +27,9 @@ else
     gradlew_folder_path = File.expand_path(File.join(ac_repo_path, ac_project_path))
 end
 
-command = "#{gradlew_folder_path} #{ac_module}/dependencies"
+Dir.chdir("#{gradlew_folder_path}")
+run_command("chmod +x gradlew")
+command = "./gradlew #{ac_module}:dependencies"
 dependency_report_path="#{ac_output_folder}/dependencyReport.txt"
 if(ac_dependency_configuration != nil) 
     command = "#{command} --configuration #{ac_dependency_configuration}"
