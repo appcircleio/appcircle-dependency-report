@@ -31,7 +31,7 @@ if(ac_dependency_configuration != nil)
     command = "#{command} --configuration #{ac_dependency_configuration}"
 end
 
-run_command("#{command} >> #{dependency_report_path})
+run_command("#{command} >> #{dependency_report_path}")
 puts "Exporting AC_ANDROID_DEPENDENCY_REPORT_PATH=#{dependency_report_path}"
 
 open(ENV['AC_ENV_FILE_PATH'], 'a') { |f|
